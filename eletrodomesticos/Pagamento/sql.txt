@@ -1,0 +1,424 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.2.2
+-- http://www.phpmyadmin.net
+--
+-- Servidor: 127.0.0.1
+-- Tempo de Geração: 
+-- Versão do Servidor: 5.5.27-log
+-- Versão do PHP: 5.4.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Banco de Dados: `eletrodomesticos`
+--
+CREATE DATABASE `eletrodomesticos` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `eletrodomesticos`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cliente`
+--
+
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) DEFAULT NULL,
+  `cpf` int(11) DEFAULT NULL,
+  `sexo` char(1) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `cidade` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  `telefone` int(11) DEFAULT NULL,
+  `dataNasc` date DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `compra`
+--
+
+CREATE TABLE IF NOT EXISTS `compra` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idFornecedor` int(11) DEFAULT NULL,
+  `data` date DEFAULT NULL,
+  `observacao` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idFornecedor` (`idFornecedor`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `formadepagamento`
+--
+
+CREATE TABLE IF NOT EXISTS `formadepagamento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `formadepagamento`
+--
+
+INSERT INTO `formadepagamento` (`id`, `nome`, `descricao`, `status`) VALUES
+(1, 'Credito', 'parcelado', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `fornecedor`
+--
+
+CREATE TABLE IF NOT EXISTS `fornecedor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) DEFAULT NULL,
+  `cnpj` int(11) DEFAULT NULL,
+  `telefone` int(11) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `cidade` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  `descricao` varchar(45) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Extraindo dados da tabela `fornecedor`
+--
+
+INSERT INTO `fornecedor` (`id`, `nome`, `cnpj`, `telefone`, `endereco`, `cidade`, `estado`, `descricao`, `status`) VALUES
+(1, 'Daniel Grevan ', 12345678, 12345678, 'kfjrughsf', 'Rio de Janeiro', 'Rio de Janeiro', 'descricao', 0),
+(2, 'Fornecedor1', 12345678, 123456789, 'wkfwljgwgw', 'smnfsln', 'skjfsln', 'adaf', 1),
+(3, 'eeee', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `funcionario`
+--
+
+CREATE TABLE IF NOT EXISTS `funcionario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) DEFAULT NULL,
+  `cpf` int(11) DEFAULT NULL,
+  `sexo` char(1) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `cidade` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  `telefone` int(11) DEFAULT NULL,
+  `matricula` int(11) DEFAULT NULL,
+  `dataNasc` date DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `cargo` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `funcionario`
+--
+
+INSERT INTO `funcionario` (`id`, `nome`, `cpf`, `sexo`, `endereco`, `cidade`, `estado`, `telefone`, `matricula`, `dataNasc`, `status`, `cargo`) VALUES
+(1, 'Clarice Bebeleia  Borges', 123456789, 'f', 'jdddddddddd', 'lfkfjf', 'ergeheheyuju', 12345678, 1234, '2013-11-04', 1, 'gerente');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `itemcompra`
+--
+
+CREATE TABLE IF NOT EXISTS `itemcompra` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idCompra` int(11) DEFAULT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `preco` decimal(11,2) DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idCompra` (`idCompra`),
+  KEY `fk_idProduto2` (`idProduto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `itemlistadecasamento`
+--
+
+CREATE TABLE IF NOT EXISTS `itemlistadecasamento` (
+  `id` int(11) NOT NULL,
+  `idListadeCasamento` int(11) DEFAULT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `preco` double DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idlistadecasamento` (`idListadeCasamento`),
+  KEY `fk_idProduto` (`idProduto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `itemreserva`
+--
+
+CREATE TABLE IF NOT EXISTS `itemreserva` (
+  `id` int(11) NOT NULL,
+  `idReserva` int(11) DEFAULT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `preco` double DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idReserva` (`idReserva`),
+  KEY `fk_idProduto3` (`idProduto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `itemvenda`
+--
+
+CREATE TABLE IF NOT EXISTS `itemvenda` (
+  `id` int(11) NOT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `idVenda` int(11) DEFAULT NULL,
+  `preco` double DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idVenda2` (`idVenda`),
+  KEY `fk_idProduto4` (`idProduto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `listadecasamento`
+--
+
+CREATE TABLE IF NOT EXISTS `listadecasamento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idCliente` int(11) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `local` varchar(45) DEFAULT NULL,
+  `cidade` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  `conjuge` varchar(45) DEFAULT NULL,
+  `data` date DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idCliente` (`idCliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `marca`
+--
+
+CREATE TABLE IF NOT EXISTS `marca` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+
+--
+-- Extraindo dados da tabela `marca`
+--
+
+INSERT INTO `marca` (`id`, `nome`, `descricao`, `status`) VALUES
+(1, 'Arno    ', 'descricao2', 1),
+(2, 'Consul', 'lgkeh', 0),
+(3, 'Ventar', 'ventilador', 1),
+(4, 'Faet', 'bla bla', 0),
+(5, 'Philco', 'secador', 1),
+(6, 'Sidneia', 'ss', 1),
+(7, 'Ana Maria ', '2338', 1),
+(8, 'adaef', 'sfs', 0),
+(9, 'sansung', 'televisao', 1),
+(10, 'Consul', '', 1),
+(11, 'arno ', 'jhfd4', 1),
+(12, 'Faet', 'kjdhfsf', 1),
+(13, 'Venetilo', 'ventilador', 1),
+(14, 'Britania ', 'fjshsrhjmk456', 1),
+(15, 'Leidiane Borges de Moraes', 'bla bla', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pagamento`
+--
+
+CREATE TABLE IF NOT EXISTS `pagamento` (
+  `id` int(11) NOT NULL,
+  `idVenda` int(11) DEFAULT NULL,
+  `dinheiroRecebido` double DEFAULT NULL,
+  `troco` double DEFAULT NULL,
+  `numParcelas` int(11) DEFAULT NULL,
+  `valorVenda` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idVenda` (`idVenda`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `produto`
+--
+
+CREATE TABLE IF NOT EXISTS `produto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idMarca` int(11) DEFAULT NULL,
+  `nome` varchar(45) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `qtdDisponivel` int(11) DEFAULT NULL,
+  `preco` double DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idMarca` (`idMarca`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Extraindo dados da tabela `produto`
+--
+
+INSERT INTO `produto` (`id`, `idMarca`, `nome`, `descricao`, `qtdDisponivel`, `preco`, `status`) VALUES
+(1, 1, 'Geladeira ', 'gelar', 9, 2000, 0),
+(2, 3, 'Ventilador', 'calor', 9, 50, 1),
+(3, 2, 'Freezer', 'gelo', 19, 1000, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `reserva`
+--
+
+CREATE TABLE IF NOT EXISTS `reserva` (
+  `id` int(11) NOT NULL,
+  `idCliente` int(11) DEFAULT NULL,
+  `data` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idCliente2` (`idCliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `troca`
+--
+
+CREATE TABLE IF NOT EXISTS `troca` (
+  `id` int(11) NOT NULL,
+  `idItemVenda` int(11) DEFAULT NULL,
+  `data` date DEFAULT NULL,
+  `observacao` varchar(100) DEFAULT NULL,
+  `comDefeito` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idItemVenda` (`idItemVenda`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `venda`
+--
+
+CREATE TABLE IF NOT EXISTS `venda` (
+  `id` int(11) NOT NULL,
+  `idCliente` int(11) DEFAULT NULL,
+  `idFuncionario` int(11) DEFAULT NULL,
+  `idFormadePagamento` int(11) DEFAULT NULL,
+  `data` date DEFAULT NULL,
+  `observacao` varchar(100) DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_idCliente3` (`idCliente`),
+  KEY `fk_idFuncionario` (`idFuncionario`),
+  KEY `fk_idFormadePagamento` (`idFormadePagamento`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Restrições para as tabelas dumpadas
+--
+
+--
+-- Restrições para a tabela `compra`
+--
+ALTER TABLE `compra`
+  ADD CONSTRAINT `fk_idFornecedor` FOREIGN KEY (`idFornecedor`) REFERENCES `fornecedor` (`id`);
+
+--
+-- Restrições para a tabela `itemcompra`
+--
+ALTER TABLE `itemcompra`
+  ADD CONSTRAINT `fk_idCompra` FOREIGN KEY (`idCompra`) REFERENCES `compra` (`id`),
+  ADD CONSTRAINT `fk_idProduto2` FOREIGN KEY (`idProduto`) REFERENCES `produto` (`id`);
+
+--
+-- Restrições para a tabela `itemlistadecasamento`
+--
+ALTER TABLE `itemlistadecasamento`
+  ADD CONSTRAINT `fk_idlistadecasamento` FOREIGN KEY (`idListadeCasamento`) REFERENCES `listadecasamento` (`id`),
+  ADD CONSTRAINT `fk_idProduto` FOREIGN KEY (`idProduto`) REFERENCES `produto` (`id`);
+
+--
+-- Restrições para a tabela `itemreserva`
+--
+ALTER TABLE `itemreserva`
+  ADD CONSTRAINT `fk_idProduto3` FOREIGN KEY (`idProduto`) REFERENCES `produto` (`id`),
+  ADD CONSTRAINT `fk_idReserva` FOREIGN KEY (`idReserva`) REFERENCES `reserva` (`id`);
+
+--
+-- Restrições para a tabela `itemvenda`
+--
+ALTER TABLE `itemvenda`
+  ADD CONSTRAINT `fk_idProduto4` FOREIGN KEY (`idProduto`) REFERENCES `produto` (`id`),
+  ADD CONSTRAINT `fk_idVenda2` FOREIGN KEY (`idVenda`) REFERENCES `venda` (`id`);
+
+--
+-- Restrições para a tabela `listadecasamento`
+--
+ALTER TABLE `listadecasamento`
+  ADD CONSTRAINT `fk_idCliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`);
+
+--
+-- Restrições para a tabela `pagamento`
+--
+ALTER TABLE `pagamento`
+  ADD CONSTRAINT `fk_idVenda` FOREIGN KEY (`idVenda`) REFERENCES `venda` (`id`);
+
+--
+-- Restrições para a tabela `produto`
+--
+ALTER TABLE `produto`
+  ADD CONSTRAINT `fk_idMarca` FOREIGN KEY (`idMarca`) REFERENCES `marca` (`id`);
+
+--
+-- Restrições para a tabela `reserva`
+--
+ALTER TABLE `reserva`
+  ADD CONSTRAINT `fk_idCliente2` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`);
+
+--
+-- Restrições para a tabela `troca`
+--
+ALTER TABLE `troca`
+  ADD CONSTRAINT `fk_idItemVenda` FOREIGN KEY (`idItemVenda`) REFERENCES `itemvenda` (`id`);
+
+--
+-- Restrições para a tabela `venda`
+--
+ALTER TABLE `venda`
+  ADD CONSTRAINT `fk_idCliente3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`id`),
+  ADD CONSTRAINT `fk_idFormadePagamento` FOREIGN KEY (`idFormadePagamento`) REFERENCES `formadepagamento` (`id`),
+  ADD CONSTRAINT `fk_idFuncionario` FOREIGN KEY (`idFuncionario`) REFERENCES `funcionario` (`id`);

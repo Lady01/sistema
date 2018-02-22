@@ -1,0 +1,18 @@
+<html>
+   <body>
+<script> 
+function soma() 
+{
+form.campo4.value = (form.campo1.value*1) + (form.campo2.value*1) + (form.campo3.value*1)
+}
+</script>
+<form name="form">
+<input name="campo1" onKeyUp="soma()"><br> 
+<input name="campo2" onKeyUp="soma()"><br> 
+<input name="campo3" onKeyUp="soma()"><br> 
+<input name="campo4" onKeyUp="soma()" readonly><br>
+<script></script>
+<!--<input type="button" onclick="soma()" value="Soma os Valores">-->
+</form>
+   </body>
+</html>

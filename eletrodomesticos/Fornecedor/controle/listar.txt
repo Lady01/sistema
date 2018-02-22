@@ -1,0 +1,59 @@
+<html>
+<head>
+</head>
+<body>
+<div>
+	<form action="../controller/verificaAcao.php?controlador=controllercliente?acao=buscar" method="post">
+		<input type="hidden" name="controlador" value="controllercliente"/>
+		<input type="hidden" name="acao" value="buscar"/>
+		<input type="text" name="nome"/>
+		<input type="submit" value="enviar"/>
+	</form>
+</div>
+<div id="listaClientes">
+<?php 
+/*require_once('../controller/controllercliente.php');
+$ctrlCliente = new controllercliente();
+$numClientes=count($ctrlCliente->buscar());*/
+require_once('../controller/verificaAcao.php')
+
+//$i=0;
+?>
+<table width="85%" border="0" cellspacing="2" cellpadding="0">
+    <tr>
+        <th>ID</th>
+        <th>NOME</th>
+        <th>IDADE</th>
+    </tr>
+<?php
+if($numClientes>0)
+{
+	/*for($i=0; $i<$numClientes; $i++;)
+	{
+		$id=$cliente->getId();
+		$nome=$cliente->getNome();
+		$idade=$cliente->getIdade();*/
+		while($numClientes>0)
+		{
+		$id=$cliente->getId();
+		$nome=$cliente->getNome();
+		$idade=$cliente->getIdade()
+		
+?>
+<tr>
+	<td><?php echo $id; ?></td>
+	<td><?php echo $nome; ?></td>
+	<td><?php echo $idade; ?></td>
+	
+	<td><a href="/mvcpiloto2/controller/verificaAcao.php?controlador=controllercliente?acao=editar&id=<?php echo $id; ?>">Editar</a></td>
+	<td><a href="/mvcpiloto2/controller/verificaAcao.php?controlador=controllercliente?acao=excluir&id=<?php echo $id; ?>">Excluir</a></td>				
+</tr>
+
+<?php
+	}
+}
+?>
+</table>
+</div>
+</body>
+</html>
